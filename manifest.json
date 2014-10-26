@@ -1,0 +1,20 @@
+{
+  "name": "Chord Fixer",
+  "version": "0.1",
+  "description": "Fixes how guitar chords are shown in a web page.",
+  "background": {
+    "scripts": ["main.js"]
+  },
+
+  "page_action": 
+  {
+      "default_icon": "icon.png",
+      "default_title": "Fix Chords"
+   },
+
+   "manifest_version": 2,
+   "permissions": [
+      "tabs", "http://*/*", "https://*/*","http://*","debugger"
+   ]
+ }
+
