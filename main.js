@@ -4,7 +4,7 @@ supportedPages["GH"] = ["tabs.ultimate-guitar.com"];
 
 // Javascript file for each page type
 var javascriptFiles = {};
-javascriptFiles["GH"] = "processGH.js" 
+javascriptFiles["GH"] = "assets/js/processors/GH/GH_main.js" 
 
 // Show Action Page icon and bind click, if necessary
 function preparePageAction( tabId, changeInfo, tab ) {
@@ -59,26 +59,10 @@ function addOnClickListener(type, tabId, changeInfo, tab)
 	console.log("Bound click with " + javascriptFiles[type] + ".");
 }
 
-function addDebuggingConnection()
-{
 
-	chrome.extension.onRequest.addListener(
-		function (request, sender, sendResponse) 
-		{	
-			console.log("hihihihi");
-			if (typeof(request) == "string")
-			{
-				console.log("hihihihi");
-				// console.log("<Message from "+sender.url+">\n"+request+"\n</Message from "sender.url+">\n");
-				sendResponse(true);
-			}
-			else sendResponse(false);
-		});
-}
 
 // Determine whether the Action Page icon should be shown every time a page is loaded
 chrome.tabs.onUpdated.addListener(preparePageAction);
 
-// Debugging connection with content scripts
-addDebuggingConnection();
+
 

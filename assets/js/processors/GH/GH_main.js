@@ -28,13 +28,21 @@ function getChordContainer()
 
 }
 
+
 function processChordPage()
 {
 	var $chordContainer = getChordContainer();
 
 	if ($chordContainer != undefined)
 	{
-		console.log("hahahah");
+		var strHtml = $chordContainer.html()
+
+		var cl = new ChordLines(strHtml);
+
+		$chordContainer.html(cl.getAnnotatedHtmlLines());
+		//console.log(cl.getAnnotatedHtmlLines());
+
+		
 	}
 
 }
