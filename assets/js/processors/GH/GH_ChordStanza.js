@@ -1,181 +1,39 @@
-function ChordStanza(chordlines)
-{
-	this.cl = chordlines;
-	this.origLines = this.cl.origHtmlLines;
-	this.cleanedLines = this.cl.cleanedHtmlLines;
 
-	this._defined = false;
-    this._startLine = -1;
-    this._endLine =  -1;
 
-    this.sig = {};
-    this.classification = "";
-
+function GH_ChordStanza(chordlines) {
+    // Calls the person constructor with `this` as its context
+    ChordStanza.call(this, chordlines);
 }
 
-ChordStanza.prototype.getClassification = function()
+// Make our prototype from Person.prototype so we inherit Person's methods
+GH_ChordStanza.prototype = Object.create(ChordStanza.prototype);
+GH_ChordStanza.prototype.constructor = GH_ChordStanza;
+
+
+GH_ChordStanza.prototype.isInvalid = function()
 {
 	var signature = this.sig['sig'];
-	if ((signature.match(/cc/g)||[]).length > 0 || signature[signature.length - 1] == "c")
-	{
-		this.classification = "invalid"
-	}
-	else if ((signature.match(/ct/g)||[]).length > 0)
-	{
-		this.classification = "chorded"
-	}
-	else
-	{
-		this.classification = "non-chorded"
-	}
-
-	return this.classification;
+	return ((signature.match(/cc/g)||[]).length > 0 || signature[signature.length - 1] == "c")
 }
 
-
-ChordStanza.prototype.getStanzaSignature = function()
+GH_ChordStanza.prototype.isChorded = function()
 {
-	this.sig['sz_lines'] = {};
-	this.sig['sg_lines'] = {};
-	this.sig['sig'] = "";
-	this.sig['tnum'] = 0;
-
-	for(i = this._startLine; i <= this._endLine; i++)
-	{
-		this.sig['sg_lines'][i] = {};
-		this.sig['sz_lines'][i - this._startLine] = {};
-
-		if (this.origLines[i].indexOf("span>") < 0) 
-		{
-			this.sig['sig'] = this.sig['sig'] + "t";
-			this.sig['sg_lines'][i]['orig'] = this.origLines[this._startLine + i];
-			this.sig['sg_lines'][i]['clean'] = this.origLines[this._startLine + i];
-			this.sig['sg_lines'][i]['sig'] = "t";
-
-			this.sig['tnum']++;
-		}
-		else
-		{
-			this.sig['sig'] = this.sig['sig'] + "c";
-			this.sig['sg_lines'][i]['orig'] = this.origLines[this._startLine + i];
-			this.sig['sg_lines'][i]['clean'] = this.origLines[this._startLine + i];
-			this.sig['sg_lines'][i]['sig'] = "c";
-		}
-
-		this.sig['sz_lines'][i - this._startLine] = this.sig['sg_lines'][i];
-	}
-
-	return this.sig['sig'];
-
-
+	var signature = this.sig['sig'];
+	return ((signature.match(/ct/g)||[]).length > 0)
 }
 
-ChordStanza.prototype.findCsForTs = function()
+GH_ChordStanza.prototype.isNonChorded = function()
 {
-	this.sig['ts'] = {};
-
-	tcounter = 0;
-	cAbove = ""
-
-	for(i = this._startLine; i <= this._endLine; i++)
-	{
-		if (this.sig['sg_lines'][i]['sig'] == "c") cAbove = this.origLines[i];
-		else if (this.sig['sg_lines'][i]['sig'] == "t")
-		{
-			this.sig['ts'][tcounter] = cAbove;
-
-			tcounter++;
-			cAbove = "";
-		}
-
-	}
-
-	
+	return true
 }
 
-
-
-ChordStanza.prototype.getOrigLinesStanza = function()
+GH_ChordStanza.prototype.isNotChordLine = function(i)
 {
-	if (this.isDefined())
-	{
-		return this.origLines.slice(this._startLine, this._endLine+1);
-	}
+	return (this.origLines[i].indexOf("span>") < 0);
 }
 
-ChordStanza.prototype.getCleanedLinesStanza = function()
+GH_ChordStanza.prototype.isChordLine = function(i)
 {
-	if (this.isDefined())
-	{
-		return this.cleanedLines.slice(this._startLine, this._endLine+1);
-	}
+	return true;
 }
-
-ChordStanza.prototype.getNthLineOfOrig = function(n)
-{
-	if (this.isDefined())
-	{
-		return this.origLines[this._startLine + n - 1];
-	}
-}
-
-ChordStanza.prototype.getNthLineOfCleaned = function(n)
-{
-	if (this.isDefined())
-	{
-		return this.cleanedLines[this._startLine + n - 1];
-	}
-}
-
-ChordStanza.prototype.isDefined = function()
-{
-	if ((this._startLine < 0 || this._endLine < 0) 
-		|| (this._startLine >= this.origLines.length || this.endLine >= this.origLines.length) 
-		|| this._startLine > this._endLine)
-	{
-		this._defined = false;
-	}
-	else this._defined = true;
-
-	return this._defined;
-}
-
-ChordStanza.prototype.setStart = function(startLine)
-{
-	if (!this.isDefined())
-	{
-		this._startLine = startLine;
-		this.isDefined();
-		return true;
-	}
-	else return false;
-}
-
-ChordStanza.prototype.setEnd = function(endLine)
-{
-	if (! this.isDefined())
-	{
-		this._endLine = endLine;
-		this.isDefined();
-		return true;
-	}
-	else return false;
-}
-
-ChordStanza.prototype.getStart = function()
-{
-	if (this.isDefined())
-	{
-		return this._startLine;
-	}
-}
-
-ChordStanza.prototype.getEnd = function()
-{
-	if (this.isDefined())
-	{
-		return this._endLine;
-	}
-}
-
 
