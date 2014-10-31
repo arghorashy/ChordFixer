@@ -99,7 +99,7 @@ ChordStanza.prototype.isNotChordLine = function(i)
 // Override with function indicating whether line is a chord line
 ChordStanza.prototype.isChordLine = function(i)
 {
-	return ! (this.origLines[i].indexOf("span>") < 0);
+	return true;
 }
 
 ChordStanza.prototype.findCsForTs = function()
