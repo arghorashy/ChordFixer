@@ -15,14 +15,14 @@ GH_ChordLines.prototype.constructor = GH_ChordLines;
 
 
 // Override with appropriate clean up function
-ChordLines.prototype.cleanHtml = function(html)
+GH_ChordLines.prototype.cleanHtml = function(html)
 {
 	return html.split("<span>").join("").split("</span>").join("").split(" ").join("");
 }
 
 
 // Override with name of appropriate ChordStanza name
-ChordLines.prototype.newChordStanzaObject = function()
+GH_ChordLines.prototype.newChordStanzaObject = function()
 {
 	var a = new GH_ChordStanza(this);
 	return a;
