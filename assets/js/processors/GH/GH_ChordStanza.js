@@ -13,18 +13,18 @@ GH_ChordStanza.prototype.constructor = GH_ChordStanza;
 GH_ChordStanza.prototype.isInvalid = function()
 {
 	var signature = this.sig['sig'];
-	return ((signature.match(/cc/g)||[]).length > 0 || signature[signature.length - 1] == "c")
+	return ((signature.match(/cc/g)||[]).length > 0 || signature[signature.length - 1] == "c");
 }
 
 GH_ChordStanza.prototype.isChorded = function()
 {
 	var signature = this.sig['sig'];
-	return ((signature.match(/ct/g)||[]).length > 0)
+	return ((signature.match(/ct/g)||[]).length > 0);
 }
 
 GH_ChordStanza.prototype.isNonChorded = function()
 {
-	return true
+	return true;
 }
 
 GH_ChordStanza.prototype.isNotChordLine = function(i)

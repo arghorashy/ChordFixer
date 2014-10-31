@@ -17,6 +17,7 @@
       "js": ["assets/js/vendor/jquery-1.11.1.js", 
               "assets/js/processors/model/ChordLines.js", "assets/js/processors/model/ChordStanza.js", "assets/js/processors/model/ChordFinder.js",
               "assets/js/processors/GH/GH_ChordLines.js", "assets/js/processors/GH/GH_ChordStanza.js", "assets/js/processors/GH/GH_ChordFinder.js",
+              "assets/js/processors/BaC/BaC_ChordLines.js", "assets/js/processors/BaC/BaC_ChordStanza.js", "assets/js/processors/BaC/BaC_ChordFinder.js",
               "assets/js/helpers.js"]
   }],
 

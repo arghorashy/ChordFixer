@@ -76,7 +76,7 @@ ChordStanza.prototype.getStanzaSignature = function()
 
 			this.sig['tnum']++;
 		}
-		else if (this.isChordLine())
+		else if (this.isChordLine(i))
 		{
 			this.sig['sig'] = this.sig['sig'] + "c";
 			this.sig['sg_lines'][i]['orig'] = this.origLines[this._startLine + i];

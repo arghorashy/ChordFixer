@@ -6,8 +6,10 @@
 
 function ChordLines (html) {
     this.origHtmlLines = html.split("\n");
+    this.origHtmlLines.unshift("");  		// Add empty line to beginning
 
     this.cleanedHtmlLines = this.cleanHtml(html).split("\n");
+    this.cleanedHtmlLines.unshift("");  		// Add empty line to beginning
 
     this.stanzas = this.findStanzas();
     this.stanzaSignatures = this.getStanzaSignatures();
@@ -145,7 +147,7 @@ ChordLines.prototype.findStanzas = function()
 	var currentStanza = this.newChordStanzaObject();
 	var stanzaStarted = false;
 
-	this.origHtmlLines.forEach(
+	this.cleanedHtmlLines.forEach(
 		function(line, index)
 		{
 			if (line.length == 0)

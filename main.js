@@ -1,14 +1,16 @@
 // Supported page types and the url matching criteria
 var supportedPages = {};
 supportedPages["GH"] = ["tabs.ultimate-guitar.com"];
+supportedPages["BaC"] = ["http://www.boiteachansons.net/Partitions"];
 
 // Javascript file for each page type
 var javascriptFiles = {};
 javascriptFiles["GH"] = "assets/js/processors/GH/GH_main.js" 
+javascriptFiles["BaC"] = "assets/js/processors/BaC/BaC_main.js"
 
-// Show Action Page icon and bind click, if necessary
-function preparePageAction( tabId, changeInfo, tab ) {
-
+// Determine page type
+function detPageType(tab)
+{
 	var pass = false;
 	var type = "";
 
@@ -29,11 +31,20 @@ function preparePageAction( tabId, changeInfo, tab ) {
 		}
 	);
 
-	if (pass)
+	if (pass) return type;
+	else return null;
+}
+
+// Show Action Page icon and bind click, if necessary
+function preparePageAction( tabId, changeInfo, tab ) 
+{
+	var type = detPageType(tab);
+
+	if (type != null && type != null)
 	{
 		// Show Action Page icon
 		chrome.pageAction.show(tabId);
-		addOnClickListener(type, tabId, changeInfo, tab);
+		addOnClickListener(tabId, changeInfo, tab);
 
 
     }
@@ -41,12 +52,14 @@ function preparePageAction( tabId, changeInfo, tab ) {
 
 
 
-function addOnClickListener(type, tabId, changeInfo, tab)
+function addOnClickListener(tabId, changeInfo, tab)
 {
 	if (tab.url !== undefined && changeInfo.status == "complete")
 	{
 		chrome.pageAction.onClicked.addListener(
-			function (tab) { //Fired when User Clicks ICON
+			function (tab) 
+			{ //Fired when User Clicks ICON
+				var type = detPageType(tab);
 		        chrome.tabs.executeScript(tab.id, {"file": javascriptFiles[type]}, 
 		        	function () 
 		        	{ // Execute your code
@@ -56,7 +69,7 @@ function addOnClickListener(type, tabId, changeInfo, tab)
 	}
 
 
-	console.log("Bound click with " + javascriptFiles[type] + ".");
+	//console.log("Bound click with " + javascriptFiles[type] + ".");
 }
 
 
