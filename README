@@ -1,2 +1,36 @@
+Introduction:
+-------------
+Ever want to learn to play a new song on the guitar?  You look up that song online and follow along, but isn't it annoying when the chords are shown on the first stanza, but not on the subsequent ones?  As if you could memorise them all that fast!  
+
+Chord Fixer is a Chrome Exentention that will detect stanzas that are annotated and copy those annotations down to the non-annotated stanzas!  Yay! 
+
+Installation Instructions:
+--------------------------
+- Open Chrome.
+- Navigate to "chrome://settings/".
+- Go to the extensions menu.
+- Click on "Load unpacked extension..."
+
+Usage Instructions:
+-------------------
+- Navigate to page containing chords on Guitar Hero or Boîte à Chansons.
+- Notice a little icon appears in the right-hand corner of the address bar.
+- If the song has any stanzas not annotated with chords, they will be filled in if there is enough information in the rest of thes song to do so.
+
+Creating New Processors:
+------------------------
+*	*	*	*	*	*	*	*	*	* INSERT CONTENT HERE
+
+Bugs and Inconveniences:
+------------------------
+- The program finds all the annotated stanzas and categorises them by the number of lines of text (not including lines of chords) they contain.  It also extracts the annotations. Then, for each non-annotated stanza, the program inserts all of the extracted annotations for stanzas of that length.  This can result in annotations like this:
+
+*	*	*	*	*	*	*	*	*	* INSERT CONTENT HERE
+
+This happens because different chords might be indicated for different stanzas.  In such cases, it is not immediately clear (at least to a program) which chords apply to which non-annotated stanzas. It is up to the user to determine which chords to play, but at least they are all within eye's reach now!  ;)
+
+Todo:
+-----
 - It would be nice to have something like a package for the model and each of its children, so I wouldn't need silly functions like ChordLines.newChordStanzaObject...
 - The model should really be a virtual class: the class should not be instantiable (some of the functions need to be overridden for the class to work!).  Only children of the model class should be instantiable...  (Is instantiable a word???)
+* Find a picture and use online .ico maker to make a better icon.
