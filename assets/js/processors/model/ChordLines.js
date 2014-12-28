@@ -6,10 +6,10 @@
 
 function ChordLines (html) {
     this.origHtmlLines = html.split("\n");
-    this.origHtmlLines.unshift("");  		// Add empty line to beginning
+    this.origHtmlLines.unshift("");  	// Add empty line to beginning because findStanzas depends on it
 
     this.cleanedHtmlLines = this.cleanHtml(html).split("\n");
-    this.cleanedHtmlLines.unshift("");  		// Add empty line to beginning
+    this.cleanedHtmlLines.unshift("");  // Add empty line to beginning because should have same indices as origHTMLLines
 
     this.stanzas = this.findStanzas();
     this.stanzaSignatures = this.getStanzaSignatures();
@@ -18,8 +18,6 @@ function ChordLines (html) {
     this.annotations = this.buildAnnotations();
 
     this.annotatedHtmlLines = this.applyAnnotations();
-
-
 }
 
 ChordLines.prototype.getAnnotatedHtmlLines = function()
@@ -27,6 +25,14 @@ ChordLines.prototype.getAnnotatedHtmlLines = function()
 	return this.annotatedHtmlLines;
 }
 
+/* Function Summary
+   ----------------
+Cycle through all stanzas
+Leave invalid and chorded stanzas as they are
+Leave non-chorded stanzas, for which there is no chorded stanza of the same length, as they are
+If chorded stanzas exist with the same number of lines as a non-chorded stanza, insert the chords 
+from the chorded stanza into the non-chorded 
+*/
 ChordLines.prototype.applyAnnotations = function()
 {
 	newLines = ""
@@ -77,17 +83,37 @@ ChordLines.prototype.buildAnnotations = function()
 	
 			for (i = 0; i < numOfLines; i++)
 			{
-				var currAnnotation = "";
+				var acceptedAnnotations = "";
+				var acceptedAnnotationsCleaned = [];
+
 
 				this.classifiedSignatures["chorded"][numOfLines].forEach(
 					function (stanza)
 					{
-						currAnnotation = currAnnotation + stanza.sig['ts'][i] + "\n";
+						already = false;
+						var newAnnotation = stanza.sig['ts'][i];
+						if (newAnnotation == undefined) return;
+						var cleanAnnotation = newAnnotation.replace(/<[^>]*>/g, '').replace(/[ ]/g, '').replace(/&nbsp;/g, '');
+
+						acceptedAnnotationsCleaned.forEach(
+							function(acceptedAnnotationCleaned)
+							{
+								
+								if (acceptedAnnotationCleaned == cleanAnnotation) already = true;
+							},
+						this);
+						if (!already) 
+						{	
+							acceptedAnnotationsCleaned.push(cleanAnnotation);
+							acceptedAnnotations = acceptedAnnotations + newAnnotation + "\n";
+						}
 
 					},
 				this);
 
-				annotations[numOfLines].push(currAnnotation);
+
+				annotations[numOfLines].push(acceptedAnnotations);
+
 			}
 
 		},
