@@ -1,3 +1,6 @@
+// Make it possible to array-push onto a hash's key, 
+// regardless of whether an array has been delcared for that
+// key yet or not.
 function forcePushIntoHash(hash, key, value)
 {
 	if ((typeof hash[key]) == "undefined")

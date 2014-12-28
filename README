@@ -20,11 +20,23 @@ Usage Instructions:
 
 Creating New Processors:
 ------------------------
-*	*	*	*	*	*	*	*	*	* INSERT CONTENT HERE
+- Within the assets/js/processors folder, make a copy of the model folder.  Rename it to an acronym for the website it will be used for.
+- Prepend that acronym to each of the files in that folder: <acronym>_filename.
+- In main.js in the root folder, add an entry to the hash table supportedPages.  The key should be the acronym and the value should be the root address of the website.  This will be used to determine what website a given page of chords belongs to.
+- In main.js in the root folder, add an entry to the hash table javascriptFiles.  The key should be the acronym and the value should be the location of assets/js/processors/<acronym>/<acronym>_main.js.
+- In the manifest.json, add all the newly created js files to the js list.
+- In all of the files in the newly copied folder, make the following sweeping replacements:
+	getChordContainer -> <acronym>_getChordContainer
+	ChordLines -> <acronym>_ChordLines
+	getChordContainer -> <acronym>_getChordContainer
+	ChordStanza -> <acronym>_ChordStanza
+- In assets/js/processors/<acronym>/<acronym>_ChordFinder.js, fill in <acronym>_getChordContainer() so that it returns the HTML element that contains the guitar chords.  This is different for each website.  Look at the source code of a few web pages to look for a pattern.  Use JQuery to come up with an algorithm for finding the correct HTML element in that pattern.
+- Look through <acronym>_ChordLines.js and <acronym>_ChordStanza.js.  Delete all functions that are not prefaced with a comment mentioning the words 'override'.  Of those functions that remain, only isNotChordLine() in <acronym>_ChordStanza.js and cleanHtml() in <acronym>_ChordLines.js will likely need to be modified.
 
-Bugs and Inconveniences:
-------------------------
-- The program finds all the annotated stanzas and categorises them by the number of lines of text (not including lines of chords) they contain.  It also extracts the annotations. Then, for each non-annotated stanza, the program inserts all of the extracted annotations for stanzas of that length.  This can result in annotations like this:
+
+More Details:
+-------------
+- The program finds all the annotated stanzas and categorises them by the number of lines of text (not including lines of chords) they contain.It also extracts the annotations. Then, for each non-annotated stanza, the program inserts all of the extracted annotations for stanzas of that length.  This can result in annotations like this:
 
 *	*	*	*	*	*	*	*	*	* INSERT CONTENT HERE
 

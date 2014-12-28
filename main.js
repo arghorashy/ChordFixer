@@ -8,7 +8,7 @@ var javascriptFiles = {};
 javascriptFiles["GH"] = "assets/js/processors/GH/GH_main.js" 
 javascriptFiles["BaC"] = "assets/js/processors/BaC/BaC_main.js"
 
-// Determine page type
+// Determine page type matching with the root urls in supportedPages 
 function detPageType(tab)
 {
 	var pass = false;
@@ -68,8 +68,6 @@ function addOnClickListener(tabId, changeInfo, tab)
 			});
 	}
 
-
-	//console.log("Bound click with " + javascriptFiles[type] + ".");
 }
 
 

@@ -54,13 +54,31 @@ ChordStanza.prototype.isInvalid = function()
 }
 
 
+/* Function Summary
+   ----------------
+Stanza signatures are a string of c's and t's.
+Each character in the string stands for a verse in the stanza.
+	c for chorded verse
+	t for text or non-chorded verse
 
+This function determines a stanza's signature
+
+
+
+*/
 ChordStanza.prototype.getStanzaSignature = function()
-{
-	this.sig['sz_lines'] = {};
+{	
+	this.sig['sig'] = "";		// The stanza signature
+	this.sig['tnum'] = 0;		// How many non-chorded verses
+
+	this.sig['sz_lines'] = {};	
+		// sz_lines: keys will be line numbers wrt start of stanza
+			// value is hash
+				// key: orig 	value: original line content
+				// key: clean 	value: cleaned line content
+				// key: sig 	value: signature for that line (t,c)
 	this.sig['sg_lines'] = {};
-	this.sig['sig'] = "";
-	this.sig['tnum'] = 0;
+		// sg_lines: same as sz_lines, except line numbers wrt start of song
 
 	for(i = this._startLine; i <= this._endLine; i++)
 	{
@@ -120,12 +138,8 @@ ChordStanza.prototype.findCsForTs = function()
 			cAbove = "";
 		}
 
-	}
-
-	
+	}	
 }
-
-
 
 ChordStanza.prototype.getOrigLinesStanza = function()
 {
