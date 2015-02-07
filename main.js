@@ -8,6 +8,7 @@ var javascriptFiles = {};
 javascriptFiles["GH"] = "assets/js/processors/GH/GH_main.js" 
 javascriptFiles["BaC"] = "assets/js/processors/BaC/BaC_main.js"
 
+
 // Determine page type matching with the root urls in supportedPages 
 function detPageType(tab)
 {
@@ -44,7 +45,6 @@ function preparePageAction( tabId, changeInfo, tab )
 	{
 		// Show Action Page icon
 		chrome.pageAction.show(tabId);
-		addOnClickListener(tabId, changeInfo, tab);
 
 
     }
@@ -52,28 +52,26 @@ function preparePageAction( tabId, changeInfo, tab )
 
 
 
-function addOnClickListener(tabId, changeInfo, tab)
-{
-	if (tab.url !== undefined && changeInfo.status == "complete")
-	{
-		chrome.pageAction.onClicked.addListener(
-			function (tab) 
-			{ //Fired when User Clicks ICON
-				var type = detPageType(tab);
-		        chrome.tabs.executeScript(tab.id, {"file": javascriptFiles[type]}, 
-		        	function () 
-		        	{ // Execute your code
-		            	console.log(javascriptFiles[type] + " executed .. "); // Notification on Completion
-		        	});
-			});
-	}
 
-}
 
 
 
 // Determine whether the Action Page icon should be shown every time a page is loaded
 chrome.tabs.onUpdated.addListener(preparePageAction);
+
+chrome.pageAction.onClicked.addListener(
+	function (tab) 
+	{ //Fired when User Clicks ICON
+
+
+		var type = detPageType(tab);
+        chrome.tabs.executeScript(tab.id, {"file": javascriptFiles[type]}, 
+        	function () 
+        	{ // Execute your code
+            	console.log(javascriptFiles[type] + " executed .. "); // Notification on Completion
+        	});
+	    
+	});
 
 
 
