@@ -17,14 +17,17 @@ function GH_getChordContainer()
 	}
 
 	// Need to fix the dev note here!!!
-	$elem = $("pre[style*='font-size:']:not('.print-visible')", $elem);
+	$elem = $("pre:not('.print-visible')", $elem);
 
-	if ($elem.length != 1) 
+	if ($elem.length != 2) 
 	{
 		alert("Could not process webpage. "+$elem.length+" \n\nDeveloper Note: the number of pre HTML elements of under div.cont in page was less than 2.");
-		//return;
+		return;
 	}
 
-	return $elem;
+	return $elem.eq(1);  
+	// using .get(int) or [int] returns the DOM element, which means it 
+	// is no longer wraped inside a jQuery object, which implies that 
+	// the nice JQuery functions are no longer available...
 
 }
